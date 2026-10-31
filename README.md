@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Brightloop Subscription Management System (Hackathon MVP)
 
 ## Requirements
@@ -34,3 +35,7 @@ python manage.py runserver
 - SQLite database is created locally.
 - Payment recording is simulated; no real payment gateway is connected.
 - This is a hackathon prototype, not production-ready. Add authentication/authorization, audit logging, robust recurring billing scheduler, and security configuration before deployment.
+=======
+# subscription-management
+subscription management system
+>>>>>>> 841cc4040dc272eec33190f7a9952084a33e2a31
