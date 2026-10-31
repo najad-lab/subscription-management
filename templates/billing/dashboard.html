@@ -1,13 +1,107 @@
-{% extends "billing/base.html" %}{% block content %}
-<div class="top"><div><h1>Dashboard</h1><div class="sub">Subscription business overview</div></div><a class="btn" href="{% url 'subscription_add' %}">+ New subscription</a></div>
-<div class="cards">
-<div class="card"><div class="label">Active subscriptions</div><div class="metric">{{ active_count }}</div><div class="sub">Currently active</div></div>
-<div class="card"><div class="label">Revenue collected</div><div class="metric">₹{{ revenue|floatformat:2 }}</div><div class="sub">Recorded payments</div></div>
-<div class="card"><div class="label">Outstanding invoices</div><div class="metric">₹{{ outstanding|floatformat:2 }}</div><div class="sub">Unpaid / confirmed</div></div>
-<div class="card"><div class="label">Overdue invoices</div><div class="metric">{{ overdue }}</div><div class="sub">Past due date</div></div>
+{% extends "billing/base.html" %}
+
+{% block content %}
+
+{# ---------- Page header ---------- #}
+<div class="top">
+  <div>
+    <h1>Dashboard</h1>
+    <div class="sub">Subscription business overview</div>
+  </div>
+  <a class="btn" href="{% url 'subscription_add' %}">+ New subscription</a>
 </div>
-<div class="panel"><div class="panel-head"><h2>Recent subscriptions</h2><a href="/subscriptions/">View all</a></div><div class="table-wrap"><table><tr><th>Customer</th><th>Plan</th><th>Amount</th><th>Status</th></tr>
-{% for s in subscriptions %}<tr><td>{{ s.customer_name }}</td><td>{{ s.plan.name }}</td><td>₹{{ s.total|floatformat:2 }}</td><td><span class="badge {{ s.status }}">{{ s.status }}</span></td></tr>{% empty %}<tr><td colspan="4" class="empty">No subscriptions yet. Create your first one.</td></tr>{% endfor %}</table></div></div>
-<div class="panel"><div class="panel-head"><h2>Recent invoices</h2><a href="/invoices/">View all</a></div><div class="table-wrap"><table><tr><th>Invoice</th><th>Customer</th><th>Total</th><th>Due</th><th>Status</th></tr>
-{% for i in invoices %}<tr><td>{{ i.invoice_number }}</td><td>{{ i.subscription.customer_name }}</td><td>₹{{ i.total|floatformat:2 }}</td><td>{{ i.due_date }}</td><td><span class="badge {{ i.status }}">{{ i.status }}</span></td></tr>{% empty %}<tr><td colspan="5" class="empty">No invoices yet.</td></tr>{% endfor %}</table></div></div>
+
+{# ---------- Summary cards ---------- #}
+<div class="cards">
+  <div class="card">
+    <div class="label">Active subscriptions</div>
+    <div class="metric">{{ active_count }}</div>
+    <div class="sub">Currently active</div>
+  </div>
+
+  <div class="card">
+    <div class="label">Revenue collected</div>
+    <div class="metric">₹{{ revenue|floatformat:2 }}</div>
+    <div class="sub">Recorded payments</div>
+  </div>
+
+  <div class="card">
+    <div class="label">Outstanding invoices</div>
+    <div class="metric">₹{{ outstanding|floatformat:2 }}</div>
+    <div class="sub">Unpaid / confirmed</div>
+  </div>
+
+  <div class="card">
+    <div class="label">Overdue invoices</div>
+    <div class="metric">{{ overdue }}</div>
+    <div class="sub">Past due date</div>
+  </div>
+</div>
+
+{# ---------- Recent subscriptions ---------- #}
+<div class="panel">
+  <div class="panel-head">
+    <h2>Recent subscriptions</h2>
+    <a href="/subscriptions/">View all</a>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <tr>
+        <th>Customer</th>
+        <th>Plan</th>
+        <th>Amount</th>
+        <th>Status</th>
+      </tr>
+
+      {% for s in subscriptions %}
+      <tr>
+        <td>{{ s.customer_name }}</td>
+        <td>{{ s.plan.name }}</td>
+        <td>₹{{ s.total|floatformat:2 }}</td>
+        <td><span class="badge {{ s.status }}">{{ s.status }}</span></td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="4" class="empty">No subscriptions yet. Create your first one.</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
+{# ---------- Recent invoices ---------- #}
+<div class="panel">
+  <div class="panel-head">
+    <h2>Recent invoices</h2>
+    <a href="/invoices/">View all</a>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <tr>
+        <th>Invoice</th>
+        <th>Customer</th>
+        <th>Total</th>
+        <th>Due</th>
+        <th>Status</th>
+      </tr>
+
+      {% for i in invoices %}
+      <tr>
+        <td>{{ i.invoice_number }}</td>
+        <td>{{ i.subscription.customer_name }}</td>
+        <td>₹{{ i.total|floatformat:2 }}</td>
+        <td>{{ i.due_date }}</td>
+        <td><span class="badge {{ i.status }}">{{ i.status }}</span></td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="5" class="empty">No invoices yet.</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
 {% endblock %}
