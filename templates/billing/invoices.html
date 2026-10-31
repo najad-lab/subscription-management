@@ -1,1 +1,56 @@
-{% extends "billing/base.html" %}{% block content %}<div class="top"><div><h1>Invoices</h1><div class="sub">Billing and invoice status</div></div><a class="btn" href="{% url 'invoice_add' %}">+ Create invoice</a></div><div class="panel"><div class="table-wrap"><table><tr><th>Invoice</th><th>Customer</th><th>Subtotal</th><th>Tax</th><th>Discount</th><th>Total</th><th>Due</th><th>Status</th><th>Actions</th></tr>{% for i in items %}<tr><td>{{ i.invoice_number }}</td><td>{{ i.subscription.customer_name }}</td><td>₹{{ i.subtotal }}</td><td>{{ i.tax_percent }}%</td><td>{{ i.discount_percent }}%</td><td>₹{{ i.total }}</td><td>{{ i.due_date }}</td><td><span class="badge {{ i.status }}">{{ i.status }}</span></td><td><div class="actions"><a class="btn small secondary" href="{% url 'invoice_status' i.pk 'Confirmed' %}">Confirm</a><a class="btn small secondary" href="{% url 'invoice_status' i.pk 'Cancelled' %}">Cancel</a></div></td></tr>{% empty %}<tr><td colspan="9" class="empty">No invoices yet.</td></tr>{% endfor %}</table></div></div>{% endblock %}
+{% extends "billing/base.html" %}
+
+{% block content %}
+
+{# ---------- Page header ---------- #}
+<div class="top">
+  <div>
+    <h1>Invoices</h1>
+    <div class="sub">Billing and invoice status</div>
+  </div>
+  <a class="btn" href="{% url 'invoice_add' %}">+ Create invoice</a>
+</div>
+
+{# ---------- Invoice table ---------- #}
+<div class="panel">
+  <div class="table-wrap">
+    <table>
+      <tr>
+        <th>Invoice</th>
+        <th>Customer</th>
+        <th>Subtotal</th>
+        <th>Tax</th>
+        <th>Discount</th>
+        <th>Total</th>
+        <th>Due</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+
+      {% for i in items %}
+      <tr>
+        <td>{{ i.invoice_number }}</td>
+        <td>{{ i.subscription.customer_name }}</td>
+        <td>₹{{ i.subtotal }}</td>
+        <td>{{ i.tax_percent }}%</td>
+        <td>{{ i.discount_percent }}%</td>
+        <td>₹{{ i.total }}</td>
+        <td>{{ i.due_date }}</td>
+        <td><span class="badge {{ i.status }}">{{ i.status }}</span></td>
+        <td>
+          <div class="actions">
+            <a class="btn small secondary" href="{% url 'invoice_status' i.pk 'Confirmed' %}">Confirm</a>
+            <a class="btn small secondary" href="{% url 'invoice_status' i.pk 'Cancelled' %}">Cancel</a>
+          </div>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="9" class="empty">No invoices yet.</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
+{% endblock %}

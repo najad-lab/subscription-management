@@ -1,1 +1,55 @@
-{% extends "billing/base.html" %}{% block content %}<div class="top"><div><h1>Subscriptions</h1><div class="sub">Customer plans and subscription lifecycle</div></div><a class="btn" href="{% url 'subscription_add' %}">+ New subscription</a></div><div class="panel"><div class="table-wrap"><table><tr><th>Ref</th><th>Customer</th><th>Plan</th><th>Quantity</th><th>Total</th><th>Status</th><th>Actions</th></tr>{% for s in items %}<tr><td>SUB-{{ s.id|stringformat:"05d" }}</td><td>{{ s.customer_name }}<br><small>{{ s.customer_email }}</small></td><td>{{ s.plan.name }}</td><td>{{ s.quantity }}</td><td>₹{{ s.total|floatformat:2 }}</td><td><span class="badge {{ s.status }}">{{ s.status }}</span></td><td><div class="actions"><a class="btn small secondary" href="{% url 'subscription_status' s.pk 'Active' %}">Activate</a><a class="btn small secondary" href="{% url 'generate_invoice' s.pk %}">Invoice</a><a class="btn small secondary" href="{% url 'subscription_status' s.pk 'Paused' %}">Pause</a></div></td></tr>{% empty %}<tr><td colspan="7" class="empty">No subscriptions yet.</td></tr>{% endfor %}</table></div></div>{% endblock %}
+{% extends "billing/base.html" %}
+
+{% block content %}
+<div class="top">
+  <div>
+    <h1>Subscriptions</h1>
+    <div class="sub">Customer plans and subscription lifecycle</div>
+  </div>
+  <a class="btn" href="{% url 'subscription_add' %}">+ New subscription</a>
+</div>
+
+<div class="panel">
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Ref</th>
+          <th>Customer</th>
+          <th>Plan</th>
+          <th>Quantity</th>
+          <th>Total</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in items %}
+        <tr>
+          <td>SUB-{{ s.id|stringformat:"05d" }}</td>
+          <td>
+            {{ s.customer_name }}<br>
+            <small>{{ s.customer_email }}</small>
+          </td>
+          <td>{{ s.plan.name }}</td>
+          <td>{{ s.quantity }}</td>
+          <td>₹{{ s.total|floatformat:2 }}</td>
+          <td><span class="badge {{ s.status }}">{{ s.status }}</span></td>
+          <td>
+            <div class="actions">
+              <a class="btn small secondary" href="{% url 'subscription_status' s.pk 'Active' %}">Activate</a>
+              <a class="btn small secondary" href="{% url 'generate_invoice' s.pk %}">Invoice</a>
+              <a class="btn small secondary" href="{% url 'subscription_status' s.pk 'Paused' %}">Pause</a>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7" class="empty">No subscriptions yet.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

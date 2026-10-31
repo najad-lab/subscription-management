@@ -1,1 +1,44 @@
-{% extends "billing/base.html" %}{% block content %}<div class="top"><div><h1>Plans</h1><div class="sub">Pricing and billing cycles</div></div><a class="btn" href="{% url 'plan_add' %}">+ Add plan</a></div><div class="panel"><div class="table-wrap"><table><tr><th>Plan</th><th>Product</th><th>Price</th><th>Cycle</th><th>Minimum qty</th><th>Active</th></tr>{% for p in items %}<tr><td>{{ p.name }}</td><td>{{ p.product.name }}</td><td>₹{{ p.price }}</td><td>{{ p.billing_cycle }}</td><td>{{ p.minimum_quantity }}</td><td>{{ p.active|yesno:"Yes,No" }}</td></tr>{% empty %}<tr><td colspan="6" class="empty">No plans created.</td></tr>{% endfor %}</table></div></div>{% endblock %}
+{% extends "billing/base.html" %}
+
+{% block content %}
+<div class="top">
+  <div>
+    <h1>Plans</h1>
+    <div class="sub">Pricing and billing cycles</div>
+  </div>
+  <a class="btn" href="{% url 'plan_add' %}">+ Add plan</a>
+</div>
+
+<div class="panel">
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Plan</th>
+          <th>Product</th>
+          <th>Price</th>
+          <th>Cycle</th>
+          <th>Minimum qty</th>
+          <th>Active</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in items %}
+        <tr>
+          <td>{{ p.name }}</td>
+          <td>{{ p.product.name }}</td>
+          <td>₹{{ p.price }}</td>
+          <td>{{ p.billing_cycle }}</td>
+          <td>{{ p.minimum_quantity }}</td>
+          <td>{{ p.active|yesno:"Yes,No" }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6" class="empty">No plans created.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
